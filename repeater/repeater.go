@@ -33,7 +33,7 @@
 	// recibe una conexion que le manda paquetes y los repite a la interfaz
 	func main() {
 		fmt.Print("Comienza Repeater\n")	 
-		fmt.Printf("Poner como parametro el puerto a repetir\n")
+		fmt.Printf("Poner como parametro el puerto a escuchar lo que hay que repetir\n")
 	
 		srcport := os.Args[1] // port
 	
