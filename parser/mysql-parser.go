@@ -1,7 +1,7 @@
 /*
  * mysql-sniffer.go
  *
- * written by Mark Smith <mark@qq.is> --- Thanks!
+ * Modification of a script written by Mark Smith <mark@qq.is> --- Thanks!
  *
  * requires the gopcap library to be installed from:
  *   https://github.com/akrennmair/gopcap
@@ -529,8 +529,9 @@ func carvePacket(buf *[]byte, f *os.File  ,rs *source , srcPort uint16, dstIP []
 
 		query = strings.Map(rot13, query)
 
-		if strings.Contains(query, "@") && strings.Contains(query, "mysql_native_password") { // es un login
-			//fmt.Println("SE CONECTO UN USUARIO")
+		if strings.Contains(query, "mysql_native_password") { // es un login
+		//if strings.Contains(query, "@") && strings.Contains(query, "mysql_native_password") { // es un login
+			fmt.Println("SE CONECTO UN USUARIO")
 			//fmt.Printf("2.0) => %q\n", data )
 			var convdata = data[31:]
 			//fmt.Printf("2.1) => %q\n", convdata )
@@ -829,3 +830,4 @@ func (self sortableSlice) Less(i, j int) bool {
 func (self sortableSlice) Swap(i, j int) {
 	self[i], self[j] = self[j], self[i]
 }
+
