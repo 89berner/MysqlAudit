@@ -175,6 +175,7 @@ func handlepackets(msgchan <-chan gopacket.Packet, destination string, destinati
 				empty := make([]byte, missingtoadd)
 
 				xsend := append(send,empty...)
+				fmt.Println("Mande un paquete..")
 
 				if _, err := conn.Write([]byte(xsend)); err != nil {
 					log.Fatalf("No me pude conectar a un parser: %s", err.Error())
