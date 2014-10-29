@@ -128,7 +128,9 @@ func main() {
 
 
 func handlepackets(msgchan <-chan gopacket.Packet, destination string, destinationport string ) {
-
+	
+	fmt.Println("En handlepackets")
+	
 	defer func() {
              if r := recover(); r != nil {
                   fmt.Println("Recovered in printMessages", r)
