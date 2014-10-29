@@ -8,10 +8,10 @@
 		//"github.com/akrennmair/gopcap"
 		"log"
 		"io"
-		"pcap"
+		//"pcap"
 		//"math/rand"
-		"strings"
-		//"regexp"
+		//"strings"
+		"code.google.com/p/gopacket/pcap"
 	)
 	
 	var start int64 = UnixNow()
