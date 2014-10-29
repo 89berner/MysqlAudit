@@ -5,12 +5,8 @@
 		"os"
 		"net"
 		"fmt"
-		//"github.com/akrennmair/gopcap"
 		"log"
 		"io"
-		//"pcap"
-		//"math/rand"
-		//"strings"
 		"code.google.com/p/gopacket/pcap"
 	)
 	
@@ -152,9 +148,7 @@
 		     for msg := range msgchan {
 		        contador = contador + 1
 		        
-		        if (contador % 100 == 0) {
-		        	fmt.Printf("printMessages: Cantidad: %d y tamaño %d\n", contador, len(msg))
-		        }
+		        fmt.Printf("printMessages: Cantidad: %d y tamaño %d\n", contador, len(msg))
 	
 		        handle.WritePacketData(msg)
 		    }
