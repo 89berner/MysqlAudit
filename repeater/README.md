@@ -15,3 +15,11 @@ apt-get install git
 apt-get install gcc
 
 apt-get install libpcap-dev
+
+go get code.google.com/p/gopacket
+
+run with:
+
+./repeater 9200
+
+where 9200 is the port to listen for the agent
