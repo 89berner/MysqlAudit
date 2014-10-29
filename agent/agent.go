@@ -175,16 +175,14 @@ func handlepackets(msgchan <-chan gopacket.Packet, destination string, destinati
 				empty := make([]byte, missingtoadd)
 
 				xsend := append(send,empty...)
-				fmt.Println("Mande un paquete..")
 
 				if _, err := conn.Write([]byte(xsend)); err != nil {
 					log.Fatalf("No me pude conectar a un parser: %s", err.Error())
 				}
 		
 			contador = contador + 1
-			if (contador % 100 == 0) {
-				fmt.Printf("%s Handle Cantidad: %d y tamaño %d \n",time.Now().Format("Mon Jan 2 15:04:05") , contador, len(msg.Data()),  )
-			}
+
+			fmt.Printf("%s Handle Cantidad: %d y tamaño %d \n",time.Now().Format("Mon Jan 2 15:04:05") , contador, len(msg.Data()),  )
 		}
 	} 
 }
