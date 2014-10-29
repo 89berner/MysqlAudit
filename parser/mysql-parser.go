@@ -161,7 +161,9 @@ func main() {
 	f, err := os.OpenFile("/var/log/mysqlqueries.txt", os.O_CREATE|os.O_WRONLY, 0666)
 	 if err != nil {
               panic(err)	
-	 }	     
+	 }
+	 
+	 
 
 
 	for rv = 0; rv >= 0; {
@@ -525,13 +527,8 @@ func carvePacket(buf *[]byte, f *os.File  ,rs *source , srcPort uint16, dstIP []
 	     		}
 	     	}
 
-	     	//obtengo tabla
-	     	//if strings.Contains(lowerquery,"select") || strings.Contains(lowerquery,"insert into")
-
-	     	//fmt.Printf("============================\n")
-		//fmt.Printf("2.5) carvePacketend => %q (%d)\n", query,  uint32(len(data)))
 		query = strings.Map(rot13, query)
-		//fmt.Printf("2.5) carvePacketend => %q (%d)\n", query,  uint32(len(data)))
+
 		if strings.Contains(query, "@") && strings.Contains(query, "mysql_native_password") { // es un login
 			//fmt.Println("SE CONECTO UN USUARIO")
 			//fmt.Printf("2.0) => %q\n", data )
@@ -540,55 +537,14 @@ func carvePacket(buf *[]byte, f *os.File  ,rs *source , srcPort uint16, dstIP []
 			convdata2 := fmt.Sprintf("%q", convdata)
 			var user = strings.Split(convdata2, "\\")[0][1:]
 			var userlen int = len(user)
-			//convdata3 := fmt.Sprintf("%q", data[55:])
-			//var convdata4 = strings.Split(convdata3,"\\")[1:]
 
-			//var num int = 0
-
-			//for i := 0; i < len(convdata4) - 1; i++ {
-			        //fmt.Printf("%d => %s\n" ,i,convdata4[i])
-			        //fmt.Printf("%d => %s\n" ,i,convdata4[i+1])
-
-			        //fmt.Printf("Test: %s",strings.Contains(convdata4[i+1],"mysql_native_"))
-
-			        //if strings.Contains(convdata4[i+1],"mysql_native_")  {
-			          //testing := fmt.Sprintf("%s", convdata4[i])
-			          // obtengo valores aceptados para contar
-			          //testing = strings.Map(rot14, testing)
-			          //fmt.Printf("Long adentro: %s     cantidad => %d \n", testing, len(testing))
-
-			        	//num = i
-			        	//break
-			        //}
-			   // }
-
-			 //fmt.Printf("El num es %d  \n" , num)
-
-
-			//convdata6 := fmt.Sprintf("%s", convdata4[num])
-			//convdata5 := fmt.Sprintf("%q", convdata4)
-			//fmt.Printf("2.2) => %q\n", convdata5 )
-			//fmt.Printf("2.3) => %q\n", convdata6 )
-			//var database = strings.Split(convdata3 ,"\\")[1]
 			var database = data[64 + userlen - 11:]
 			var database2 = strings.Map(rot14, string(database))
 			database2 = strings.Split(database2, "mysql_native_password")[0]
-			//var user = strings.split()
-			//fmt.Printf("2.5) Origip: %s Origport: %d Destip: %s User: %s - User length: %d- Database: %s \n",rs.srcip, srcPort, pdstip, user, userlen ,database2)
 			join := fmt.Sprintf("%s:%d:%s", rs.srcip,srcPort, pdstip)
 			connections[join] = user + "," + database2
-			//for key, value := range connections {
-    			//	fmt.Println("Key:", key, "Value:", value)
-			//}
 
-			//HAY QUE HACER PRINT DE CADA BYTE DE CONEXION, COMPARAR CON PROTOCOLO
-			// PARA AGARRAR BIEN LA DB
-			//fmt.Printf("%+v", data)
-			//for i := 0; i < len(data) - 1; i++ {
-			//	fmt.Printf("%d: %+v - %c  \t", i,data[i],data[i])
-			//}
 
-			//time.Sleep(2000 * time.Millisecond)
 			return ptype, data
 		// }
 		//else if {// hace un "use"
@@ -596,7 +552,8 @@ func carvePacket(buf *[]byte, f *os.File  ,rs *source , srcPort uint16, dstIP []
 		join := fmt.Sprintf("%s:%d:%s", rs.srcip,srcPort, pdstip)
 		tex := fmt.Sprintf("%s,%s,%d,%s,%s,%s,%s,%q\n", time.Now().Format("Mon Jan 2 15:04:05") , rs.srcip, srcPort, pdstip, connections[join], table, firstword, query)
 	     	f.Write([]byte(tex))
-	     	//log.Print(tex)
+	     	f.Sync()
+	     	log.Print(tex)
 
 	     	if querycount % 100 == 0 {
 		     	elapsed := float64(UnixNow() - start)
