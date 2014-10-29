@@ -22,3 +22,6 @@ go build mysql-parser.go
 
 
 Usage: ./mysql-parser
+
+
+You must modify syslog-ng.conf with the correct ip address
